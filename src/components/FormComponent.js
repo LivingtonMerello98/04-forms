@@ -3,57 +3,58 @@ import '../App.css';
 
 export const FormComponent = () => {
 
-    const [user, setuser] = useState({});
+    const [user, setUser] = useState({ name: '', lastName: '', bio: '' });
+    let isSumbited = false;
 
-    const fetchDataForm = e => {
+    const fetchForm = e => {
         e.preventDefault();
+        let data = e.target;
 
-        let data = e.target
-        console.log(data.gender.value)
-
-        let user = {
-            name: data.name.value,
-            lastName: data.lastName.value,
-            gender: data.gender.value,
-            bio: data.biography.value
+        let objUser = {
+            name: data.nameUser.value,
+            lastName: data.lastNameUser.value,
+            bio: data.bioUser.value
         }
 
-        console.log(user)
+        setUser(objUser);
 
-        setuser(user)
+        isSumbited = true;
+
+        console.log(isSumbited);
     }
 
     return (
         <div>
-            <h4 className='mb-3'>forms con react</h4>
+            <h3>form in react</h3>
 
-            {user.bio && user.bio.length >= 1 ? (<p>nome: {user.name} cognome: {user.lastName}  sesso:{user.gender}</p>) : (<p></p>)}
+            {user.name && user.name.length >= 1 ? (<p>{user.name}</p>) : (<p></p>)}
 
-            <div>
-                <form className='form' onSubmit={fetchDataForm}>
-                    <input type='text'
-                        placeholder='nome'
-                        className='mb-3'
-                        name='name' />
+            <form className='form mb-3' onSubmit={fetchForm}>
+                <input className='input'
+                    placeholder='nome'
+                    name='nameUser'
+                />
+                {user.name == null || user.name && user.name.length <= 3 ?
+                    (<p className='error'>il nome deve essere minimo di 3 caratteri</p>) : (<p></p>)}
 
-                    <input type='text'
-                        placeholder='cognome'
-                        className='mb-3'
-                        name='lastName' />
+                <input className='input'
+                    placeholder='lastName'
+                    name='lastNameUser'
+                />
+                {user.lastName && user.lastName.length < 3 ?
+                    (<p className='error'>il cognome deve essere minimo di 3 caratteri</p>) : (<p></p>)}
 
-                    <select className='mb-3' name='gender'>
-                        <option value='uomo'>uomo</option>
-                        <option value='donna'>donna</option>
-                    </select>
+                <textarea placeholder='raccontaci di te'
+                    className='mb-3'
+                    name='bioUser'>
 
-                    <textarea placeholder='biografia'
-                        className='mb-3'
-                        name='biography'></textarea>
-                    <input type='submit' value='send' />
-                </form>
-            </div>
+                </textarea>
+
+                <button className='send'
+                    type='submit'> send </button>
+            </form>
         </div>
     )
 }
 
-export default FormComponent;
+export default FormComponent
